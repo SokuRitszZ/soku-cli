@@ -13,6 +13,8 @@ console.log('Soku-cli started.');
 const __dirname = cwd();
 const repoNames = Object.keys(repo);
 
+console.log(__dirname);
+
 inquirer
   .prompt([
     {
@@ -37,8 +39,10 @@ inquirer
   });
 
 async function downloadTemplate(templateName, projectName) {
+  const projectPath = path.resolve(__dirname, projectName);
+
   try {
-    if (existsSync(path.resolve(__dirname, projectName))) {
+    if (existsSync(projectPath)) {
       console.log(`The file \`${projectName}\` already exists.`);
       return;
     }
@@ -52,6 +56,7 @@ async function downloadTemplate(templateName, projectName) {
       projectName,
       {
         clone: true,
+        path: projectPath,
       },
       () => {
         spinner.stop();
